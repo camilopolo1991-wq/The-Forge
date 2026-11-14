@@ -1,17 +1,17 @@
 # PORT-MAP: the Forge plugin (plugin id loop-kit; KIT12B-01)
 
-Every row of the T01 inventory (67 rows: 54 at main, 13 at 6206b7f) with its class and its home.
+Every row of the T01 inventory (62 rows: 54 at main, 8 at 6206b7f) with its class and its home.
 Classes: port = bytes carried into this plugin; wrap = called in place from `$LOOP_HOME/bin`, never copied; exclude = not shipped here.
-The 6206b7f hook copies are superseded by the main ports (6206b7f carries a role alias that lands with the crew agents). `agents/` is absent in this build.
+The 6206b7f hook copies are superseded by the main ports. `agents/` is absent in this build.
 Plugin-own files (no kit source): `.claude-plugin/plugin.json`, `hooks/hooks.json`, `hooks/run-guard.sh`, `selftest/run_selftest.py`, `PORT-MAP.md`, `INSTALL.md`.
 
 | source | path | class | home | note |
 |---|---|---|---|---|
-| main | agents/loop-auditor.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
-| main | agents/loop-leader.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
-| main | agents/loop-reviewer.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
-| main | agents/loop-scout.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
-| main | agents/loop-writer.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
+| main | agents/loop-auditor.md | exclude | not shipped | loop-auditor (Nemesis, The Reckoner); agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
+| main | agents/loop-leader.md | exclude | not shipped | loop-leader (Talos, The Sentinel); agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
+| main | agents/loop-reviewer.md | exclude | not shipped | loop-reviewer (Minos, The Judge); agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
+| main | agents/loop-scout.md | exclude | not shipped | loop-scout (Argus, The Watcher); agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
+| main | agents/loop-writer.md | exclude | not shipped | loop-writer (Daedalus, The Craftsman); agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
 | main | bin/loop-card-lint | wrap | $LOOP_HOME/bin/loop-card-lint | called in place, not copied |
 | main | bin/loop-dispatch | wrap | $LOOP_HOME/bin/loop-dispatch | called in place, not copied |
 | main | bin/loop-guard-run | wrap | $LOOP_HOME/bin/loop-guard-run | called in place, not copied |
@@ -63,11 +63,6 @@ Plugin-own files (no kit source): `.claude-plugin/plugin.json`, `hooks/hooks.jso
 | main | skills/loop-ticket/SKILL.md | port | plugin/loop-kit/skills/loop-ticket/SKILL.md | skill bytes carried |
 | 6206b7f | plugin/loop-kit/.claude-plugin/plugin.json | exclude | not shipped | plugin-own file, rewritten in this plugin |
 | 6206b7f | plugin/loop-kit/PORT-MAP.md | exclude | not shipped | replaced by this file |
-| 6206b7f | plugin/loop-kit/agents/argus.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
-| 6206b7f | plugin/loop-kit/agents/daedalus.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
-| 6206b7f | plugin/loop-kit/agents/minos.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
-| 6206b7f | plugin/loop-kit/agents/nemesis.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
-| 6206b7f | plugin/loop-kit/agents/talos.md | exclude | not shipped | agents belong to REPOS-01; a follow-up card adds plugin/loop-kit/agents/ after its merge |
 | 6206b7f | plugin/loop-kit/hooks/_guardlib.py | exclude | plugin/loop-kit/hooks/_guardlib.py (from main, not this copy) | superseded by the main port of the same name (bytes equal main) |
 | 6206b7f | plugin/loop-kit/hooks/hooks.json | exclude | not shipped | plugin-own file, rewritten in this plugin |
 | 6206b7f | plugin/loop-kit/hooks/pretool-guard.py | exclude | plugin/loop-kit/hooks/pretool-guard.py (from main, not this copy) | superseded by the main port of the same name (differs from main by a role alias) |
@@ -75,7 +70,7 @@ Plugin-own files (no kit source): `.claude-plugin/plugin.json`, `hooks/hooks.jso
 | 6206b7f | plugin/loop-kit/hooks/writer-git-guard.py | exclude | plugin/loop-kit/hooks/writer-git-guard.py (from main, not this copy) | superseded by the main port of the same name (bytes equal main) |
 | 6206b7f | plugin/loop-kit/hooks/writer-path-guard.py | exclude | plugin/loop-kit/hooks/writer-path-guard.py (from main, not this copy) | superseded by the main port of the same name (bytes equal main) |
 
-Counts: 67 rows, port 12, wrap 37, exclude 18 (the 6206b7f hook rows are counted as exclude here because the main port stands in).
+Counts: 62 rows, port 12, wrap 37, exclude 13 (the 6206b7f hook rows are counted as exclude here because the main port stands in).
 
 Windows-only, not ported: the owner's Windows venv interpreter path and the `loop-py` Windows spelling (LOOP_PYTHON or `$LOOP_HOME/venv` take their place); the SessionStart preflight registration in the owner's Windows settings.
 The three per-role guards ship in `hooks/` but are not registered by `hooks/hooks.json`; the role agents register them with `bash "${CLAUDE_PLUGIN_ROOT}/hooks/run-guard.sh" <guard>` once REPOS-01's agents land.

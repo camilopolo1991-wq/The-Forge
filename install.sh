@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-# install.sh <interpreter> [--with-tests]  or  LOOP_PY=<interpreter> [LOOP_WITH_TESTS=1] install.sh : install the loop kit from this repository into $HOME.
+# install.sh <interpreter> [--with-tests]  or  LOOP_PY=<interpreter> [LOOP_WITH_TESTS=1] install.sh : install The Forge (plugin id loop-kit) from this repository into $HOME.
 #
 #   bash install.sh /full/path/to/python
 #   bash install.sh /full/path/to/python --with-tests

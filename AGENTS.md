@@ -1,8 +1,8 @@
-# Local rules for agents working in this repository
+# Local rules for agents working in this repository (The Forge)
 
 ## Where things are
 
-- `agents/` the five role files (leader, scout, writer, reviewer, auditor), installed to ~/.claude/agents.
+- `agents/` the five role files (loop-leader Talos, The Sentinel; loop-scout Argus, The Watcher; loop-writer Daedalus, The Craftsman; loop-reviewer Minos, The Judge; loop-auditor Nemesis, The Reckoner), installed to ~/.claude/agents.
 - `bin/` the command-line tools and their Python modules, installed to ~/.loop/bin.
 - `docs/` project documents that state figures.
 - `examples/` the example task card that loop-card-lint is run on.

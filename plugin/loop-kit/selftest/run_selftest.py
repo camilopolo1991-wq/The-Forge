@@ -7,9 +7,11 @@ Builds a minimal throwaway loop home in --home (fixtures written here, no copy o
 config, name list or secret file), then pipes 8 payloads (a deny and an allow for each of
 pretool-guard, readonly-guard, writer-git-guard, writer-path-guard) into the guards through
 hooks/run-guard.sh. LOOP_HOME, LOOP_PYTHON, LOOP_GOAL and LOOP_ROLE are set for the child only.
-One line per case: guard, case, expected, got, exit code. Exit 0 only when all 8 hold.
+A ninth case reads the agent files under agents/ and plugin/loop-kit/agents/ and holds when none has
+a frontmatter name outside loop-*, and no crew/ folder at the kit root holds a file.
+One line per case: guard, case, expected, got, exit code. Exit 0 only when all 9 hold.
 --flip inverts the deny expectation, a control that must exit non-zero.
-A summary goes to stderr so stdout holds exactly the 8 case lines.
+A summary goes to stderr so stdout holds exactly the 9 case lines.
 """
 import argparse
 import json
@@ -76,6 +78,43 @@ def cases(home):
     ]
 
 
+def agent_name_offenders():
+    """Files under agents/ (kit root) and plugin/loop-kit/agents/ whose frontmatter name is not loop-*."""
+    kit = os.path.dirname(os.path.dirname(PLUGIN))
+    bad = []
+    for root in (os.path.join(kit, 'agents'), os.path.join(PLUGIN, 'agents')):
+        if not os.path.isdir(root):
+            continue
+        for dirpath, _dirs, files in os.walk(root):
+            for fn in sorted(files):
+                p = os.path.join(dirpath, fn)
+                try:
+                    with open(p, encoding='utf-8') as fh:
+                        lines = fh.read().splitlines()
+                except (OSError, UnicodeDecodeError):
+                    continue
+                if not lines or lines[0].strip() != '---':
+                    continue
+                for ln in lines[1:]:
+                    if ln.strip() == '---':
+                        break
+                    if ln.startswith('name:'):
+                        if not ln[5:].strip().strip('"\'').startswith('loop-'):
+                            bad.append(os.path.relpath(p, kit).replace('\\', '/'))
+                        break
+    return bad
+
+
+def crew_offenders():
+    """Every file under crew/ at the kit root: the folder must not come back."""
+    kit = os.path.dirname(os.path.dirname(PLUGIN))
+    found = []
+    for dirpath, _dirs, files in os.walk(os.path.join(kit, 'crew')):
+        for fn in sorted(files):
+            found.append(os.path.relpath(os.path.join(dirpath, fn), kit).replace('\\', '/'))
+    return found
+
+
 def decide(rc, out):
     """deny when the guard printed a deny decision; allow when it exited 0 with no deny."""
     if rc != 0:
@@ -124,9 +163,15 @@ def main():
         held += ok
         print('guard=%s case=%s expected=%s got=%s exit=%d%s'
               % (guard, case, want, got, p.returncode, '' if ok else ' MISMATCH'))
-    print('selftest: %d of %d hold%s' % (held, len(rows), ' (flip control)' if a.flip else ''),
+    off = agent_name_offenders() + crew_offenders()
+    ok = not off
+    held += ok
+    print('guard=agents/ case=name-is-loop-star expected=allow got=%s exit=%d%s'
+          % ('allow' if ok else 'deny', 0 if ok else 1, '' if ok else ' MISMATCH ' + ','.join(off)))
+    total = len(rows) + 1
+    print('selftest: %d of %d hold%s' % (held, total, ' (flip control)' if a.flip else ''),
           file=sys.stderr)
-    return 0 if held == len(rows) else 1
+    return 0 if held == total else 1
 
 
 if __name__ == '__main__':

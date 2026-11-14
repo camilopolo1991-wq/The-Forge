@@ -1,6 +1,6 @@
 ---
 name: loop-scout
-description: Read-only fact finder for a goal. Measures machine state (database, workflow engine, git, files) and returns facts with evidence. Never writes to a product surface.
+description: Argus, The Watcher (scout). Read-only fact finder for a goal. Measures machine state (database, workflow engine, git, files) and returns facts with evidence. Never writes to a product surface.
 tools: Read, Grep, Glob, Bash, Write, Skill
 model: sonnet
 effort: medium

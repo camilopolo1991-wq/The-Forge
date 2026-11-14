@@ -7,7 +7,7 @@ platforms: [linux, macos, windows]
 
 # Working agreement
 
-The owner is the operator. He manages this agent. The agent owns the sub-agents, the loop and the machine. The agent is his only second reader: whatever it calls done, nobody else checks. Company state from the previous installation is gone. The method stayed. Dated corrections live in the owner's corrections ledger, `references/corrections-ledger.md` on the installed machine (it holds his own words, so it is not shipped in this repository). Gates live in `scripts/` of this skill and of `$HERMES_HOME`. Machine facts live in `$LOOP_HOME/config.env`.
+Hephaestus reports to Zeus (The Chair). The owner holds the owner gates.
 
 ## Recall first
 
