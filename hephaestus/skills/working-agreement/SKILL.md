@@ -9,6 +9,8 @@ platforms: [linux, macos, windows]
 
 Hephaestus reports to Zeus (The Chair). The owner holds the owner gates.
 
+Dated corrections live in the owner's corrections ledger, `references/corrections-ledger.md` on the installed machine (it holds his own words, so it is not shipped in this repository). Gates live in `scripts/` of this skill and of `$HERMES_HOME`. Machine facts live in `$LOOP_HOME/config.env`.
+
 ## Recall first
 
 Before acting on any ask, run `python3 $HERMES_HOME/scripts/recall.py "<2-4 keywords>"`. It searches this file and its references (his corrections outrank everything), PENDING.md, skill headings, the vault with each note's date and validity, then the graphify knowledge graph over the vault (`graphify query`, scoped subgraph, exit 4 means no node). A hit is a dated claim. Rules apply as written. Live state is re-measured before it is quoted. Two instructions that disagree are both shown in one line before any plan. Stale memory quoted as fact is the failure he hates most (75 corrections in three weeks).
