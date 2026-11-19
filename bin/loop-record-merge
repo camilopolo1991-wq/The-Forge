@@ -25,6 +25,11 @@ if [ -z "${LOOP_PY:-}" ] && [ -f "$LOOP_HOME_D/config.env" ]; then
   LOOP_PY="$(printf '%s' "$LOOP_PY" | sed 's/[[:space:]]*$//')"
 fi
 PY="${LOOP_PY:-}"
+# B-19: strip one pair of matching surrounding quotes, from the environment or from config.env alike.
+case "$PY" in
+  \"*\") PY="${PY#\"}"; PY="${PY%\"}";;
+  \'*\') PY="${PY#\'}"; PY="${PY%\'}";;
+esac
 if [ -z "$PY" ] || ! "$PY" -c 'import sys' >/dev/null 2>&1; then
   echo "$NAME: LOOP_PY does not resolve to a working python interpreter." >&2
   echo "$NAME: set LOOP_PY in the environment, or as LOOP_PY= in $LOOP_HOME_D/config.env." >&2

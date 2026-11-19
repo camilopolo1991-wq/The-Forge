@@ -23,12 +23,13 @@ if [ -z "${LOOP_PY:-}" ] && [ -f "$LOOP_HOME_D/config.env" ]; then
   LOOP_PY="$(sed -n 's/^[[:space:]]*LOOP_PY=//p' "$LOOP_HOME_D/config.env" | tail -1)"
   LOOP_PY="${LOOP_PY%%#*}"
   LOOP_PY="$(printf '%s' "$LOOP_PY" | sed 's/[[:space:]]*$//')"
-  case "$LOOP_PY" in
-    \"*\") LOOP_PY="${LOOP_PY#\"}"; LOOP_PY="${LOOP_PY%\"}";;
-    \'*\') LOOP_PY="${LOOP_PY#\'}"; LOOP_PY="${LOOP_PY%\'}";;
-  esac
 fi
 PY="${LOOP_PY:-}"
+# B-19: strip one pair of matching surrounding quotes, from the environment or from config.env alike.
+case "$PY" in
+  \"*\") PY="${PY#\"}"; PY="${PY%\"}";;
+  \'*\') PY="${PY#\'}"; PY="${PY%\'}";;
+esac
 if [ -z "$PY" ]; then
   echo "$NAME: refused, LOOP_PY is not set (environment or config.env under the loop home)." >&2
   exit 3
