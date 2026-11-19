@@ -16,11 +16,22 @@ MAX_RESUMES = 3
 POLL_S = int(os.environ.get("AR_POLL_S", "60"))
 MAX_POLLS = int(os.environ.get("AR_MAX_POLLS", "0"))  # sandbox test only: stop after N polls, 0 = never
 GRACE_S = 60
-HOME = pathlib.Path("~")
+HOME = pathlib.Path.home()
 E = os.environ.get  # AR_* overrides exist for the sandbox test only
 LOOP = pathlib.Path(E("AR_LOOP", str(HOME / ".loop")))
 PROF = pathlib.Path(E("AR_PROF", str(HOME / "<HERMES_HOME>/profiles/hephaestus")))
-PY = str(HOME / "<HERMES_HOME>/installs/0b0f45a937e3ec2a/environments/f77c8d48599e427189917236f76f95f3/venv/Scripts/python.exe")
+def _hermes_py():  # the rule of hephaestus/shims/hermes-python: HERMES_PY, else the newest tools/python-*/python.exe
+    given = os.environ.get("HERMES_PY")
+    if given and os.path.isfile(given):
+        return given
+    tools = pathlib.Path(os.environ.get("LOCALAPPDATA") or HOME / "AppData/Local") / "hermes/tools"
+    found = []
+    for d in tools.glob("python-*"):
+        m = re.match(r"python-(\d+)\.(\d+)\.(\d+)", d.name)
+        if m and (d / "python.exe").is_file():
+            found.append((tuple(int(x) for x in m.groups()), d / "python.exe"))
+    return str(max(found, key=lambda t: t[0])[1]) if found else ""
+PY = _hermes_py()
 BASH = shutil.which("bash") or "bash"
 RECORD = pathlib.Path(E("AR_RECORD", str(HOME / "loop-record")))
 JOURNAL = RECORD / "docs/JOURNAL.md"

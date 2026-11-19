@@ -1,0 +1,42 @@
+#!/bin/sh
+# hermes-python: a stable name for the Hermes interpreter (POSIX sh form; hermes-python.cmd is the Windows form).
+# Rule: HERMES_PY if set and an existing file; else the newest python.exe under
+# <local app data>/hermes/tools/python-*/ (newest by the version in the folder name, compared as numbers);
+# none: one line on stderr, exit 3. Single argument --which prints the resolved path, exit 0.
+# Otherwise runs the resolved interpreter with every argument and returns its exit code.
+# Local app data: LOCALAPPDATA, or ~/AppData/Local when unset.
+
+PY=""
+if [ -n "${HERMES_PY:-}" ] && [ -f "$HERMES_PY" ]; then
+  PY=$HERMES_PY
+else
+  LA=${LOCALAPPDATA:-$HOME/AppData/Local}
+  LIST=""
+  NL='
+'
+  for D in "$LA"/hermes/tools/python-*/; do
+    P=${D}python.exe
+    [ -f "$P" ] || continue
+    N=${D%/}
+    N=${N##*/}
+    V=${N#python-}
+    V=${V%%+*}
+    LIST="$LIST$V|$P$NL"
+  done
+  if [ -n "$LIST" ]; then
+    BEST=$(printf '%s' "$LIST" | sort -t. -k1,1n -k2,2n -k3,3n | tail -n 1)
+    PY=${BEST#*|}
+  fi
+fi
+
+if [ -z "$PY" ]; then
+  echo "hermes-python: no interpreter found" >&2
+  exit 3
+fi
+
+if [ "$#" -eq 1 ] && [ "$1" = "--which" ]; then
+  printf '%s\n' "$PY"
+  exit 0
+fi
+
+exec "$PY" "$@"
