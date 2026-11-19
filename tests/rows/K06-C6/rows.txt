@@ -8,7 +8,7 @@ a-removed-skills-description :: path :: absent :: skills/DESCRIPTION.md
 a-removed-rows-description :: path :: absent :: tests/rows/DESCRIPTION.md
 # (b) the three moved paths: the file at its new place has the expected sha256 (the bytes did not change) and the old place is absent
 b-moved-ticket-migrate-module :: moved :: 7c64b41e0ded0590dde2ba68b3ba1584cfdba02facf45443c6f972c47d96a348 :: tests/tools/loop_ticket_migrate.py|bin/loop_ticket_migrate.py
-b-moved-ticket-migrate-stub :: moved :: 73e43fe9b82aa7ef18d916aefb96ee67af51ff1c3512027f8d0e71bcc6119a70 :: tests/tools/loop-ticket-migrate|bin/loop-ticket-migrate
+b-moved-ticket-migrate-stub :: moved :: 0bec82a6f718be2213b7111ead5068a6eec9a29270dc814581adafd43a26df74 :: tests/tools/loop-ticket-migrate|bin/loop-ticket-migrate
 b-moved-tripwire-selftest :: moved :: d2260b3331ce6642fb2d62cd38002f33f55803bad27bb014b24650d1bfefcb10 :: tests/tripwire_selftest.py|bin/tripwire_selftest.py
 b-docker-shim-stays-beside-the-selftest :: path :: present :: tests/docker
 b-moved-stub-launches-its-module :: launch :: 3 :: tests/tools/loop-ticket-migrate
